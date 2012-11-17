@@ -9,7 +9,7 @@
 	(get-file filename))
 
 (defun print-list (lst)
-  (loop for item in lst do
+	(loop for item in lst do
 	(format t "~a~%" i)))
 
 (defun main ()
