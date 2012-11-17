@@ -1,3 +1,4 @@
+; Loads the English dictionary from dictionary.txt.
 (defun get-dictionary ()
 	(setf filename "dictionary.txt")
 	(with-open-file (stream filename)
@@ -5,16 +6,19 @@
 			while line
 			collect line)))
 
+; Prints a list to standard out, separated by newlines.
 (defun print-list (lst)
 	(loop for item in lst do
 		(format t "~a~%" item)))
 
+; Checks if a string exists in a list.
 (defun string-in-list (str lst)
 	(setf found nil)
 	(loop for item in lst do
 		(if (string= str item) (setf found t)))
 	found)
 
+; Gets the scrabble score for a single letter.
 (defun get-letter-score (letter)
 	(cond
 		((string-in-list letter '("E" "A" "I" "O" "N" "R" "T" "L" "S" "U")) 1)
@@ -26,6 +30,7 @@
 		((string-in-list letter '("Q" "Z"))                                 10)
 		(t 0)))
 
+; Gets the scrabble score for an entire word.
 (defun get-word-score (str)
 	(apply '+
 		(loop for letter across str collect (get-letter-score letter))))
