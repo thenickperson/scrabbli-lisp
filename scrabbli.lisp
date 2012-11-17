@@ -11,6 +11,10 @@
 	(loop for item in lst do
 		(format t "~a~%" item)))
 
+; Checks if a string is an English word.
+(defun is-word (str)
+	(string-in-list str dictionary))
+
 ; Checks if a string exists in a list.
 (defun string-in-list (str lst)
 	(setf found nil)
@@ -34,3 +38,7 @@
 (defun get-word-score (str)
 	(apply '+
 		(loop for letter across str collect (get-letter-score letter))))
+
+; Save the dictionary so get-dictionary doesn't need to be called more than
+; once.
+(setf dictionary (get-dictionary))
