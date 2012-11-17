@@ -13,7 +13,4 @@
 	(apply '+
 		(loop for letter across str collect (1))))
 
-(defun main ()
-	(print-list (get-dictionary)))
 
-(main)
