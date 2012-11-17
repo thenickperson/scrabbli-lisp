@@ -1,3 +1,6 @@
+; Loads the anagram generator
+(load "anagrams.lisp")
+
 ; Loads the English dictionary from dictionary.txt.
 (defun get-dictionary ()
 	(setf filename "dictionary.txt")
