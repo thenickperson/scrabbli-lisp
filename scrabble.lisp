@@ -8,10 +8,20 @@
 	(setf filename "dictionary.txt")
 	(get-file filename))
 
+#|
+;; this would work if our program was compiled, not interpretted AND
+;; if the compiler included a tail-recursive optimizer
 (defun print-list (lst)
-	(if (car lst)
-		(format t (car lst))
-		(print-list (cdr lst))))
+	(when (first lst)
+	  (format t "~a~%" (first lst))
+	  (print-list (rest lst))))
+|#
+
+;;instead, we have to do this
+(defun print-list (lst)
+  (loop for item in lst do
+	(format t "~a~%" i)))
+
 
 (defun main ()
 	(print-list (get-dictionary)))
