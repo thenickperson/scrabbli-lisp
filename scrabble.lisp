@@ -10,7 +10,7 @@
 
 (defun print-list (lst)
 	(loop for item in lst do
-	(format t "~a~%" item)))
+		(format t "~a~%" item)))
 
 (defun main ()
 	(print-list (get-dictionary)))
