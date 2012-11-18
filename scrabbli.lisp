@@ -20,15 +20,27 @@
 
 ; Checks if a string exists in a list.
 (defun string-in-list (str lst)
-	(setf found nil)
+  (setf count 0)
 	(loop for item in lst do
-		(if (string= str item) (setf found t)))
-	found)
+		(if (equal str item) 
+		    (return T))))
 
+; Goes through a list and returns valid words
 (defun find-valid-words (lst)
-	(setf results '())
-	(loop for str in lst do
-		(setf results (append results '(str)))))
+  (prune #'null (loop for str in lst collect
+		    (if (is-word str) str))))
+
+; Removes the test object from a list
+(defun prune (test tree) 
+  (labels ((rec (tree acc) 
+	     (cond ((null tree) (nreverse acc)) 
+		   ((consp (car tree)) 
+		    (rec (cdr tree) 
+			 (cons (rec (car tree) nil) acc))) 
+		   (t (rec (cdr tree) 
+			   (if (funcall test (car tree)) 
+			       acc 
+			       (cons (car tree) acc))))))) (rec tree nil)))
 
 ; Gets the scrabble score for a single letter.
 (defun get-letter-score (letter)
@@ -71,3 +83,6 @@
 (defun anagrams-for-subsets (string)
 	(flatten (loop for item in (get-subset-strings string) collect
 		(anagrams item))))
+
+(defun get-valid-posibilities (string)
+  (find-valid-words (anagrams-for-subsets string)))
