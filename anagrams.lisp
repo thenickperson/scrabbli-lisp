@@ -15,10 +15,22 @@
        ((not ,test))
      ,@body))
 
+(defun flatten (l)
+  (cond ((null l) nil)
+        ((atom l) (list l))
+        (t (loop for a in l appending (flatten a)))))
+
 (defun prune (bag dict)
   (remove-if
    #'(lambda (entry) (not (subtract-bags bag (car entry))))
    dict))
+
+(defun get-dictionary ()
+  (setf filename "dictionary.txt")
+  (with-open-file (stream filename)
+    (loop for line = (read-line stream nil)
+      while line
+      collect line)))
 
 (defun anagrams-internal (bag dict limit)
   (let ((rv ())
@@ -50,3 +62,10 @@
       (prog1 result
         (format *error-output* ";; ~a anagrams of ~a~%" (length result)
                 string)))))
+
+(defun new-anagrams (string)
+    (let ((b (bag string)))
+        (init b)
+        (intersection (flatten (loop for item in (prune b *dict*) collect
+            (rest item))) (get-dictionary) :test 'equal)
+        ))
