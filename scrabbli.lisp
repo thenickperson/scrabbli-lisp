@@ -74,8 +74,17 @@
 			(loop for substring in (substrings str) collect
 				(anagrams substring)))))
 
+; first the best scoring word that can be made with a given string
+(defun find-best-word (str)
+	(setq best-word nil)
+	(setq best-score 0)
+	(loop for word in (find-words (str)) do
+		(if (>= (find-word-score (str)) best-score) (
+			(setq best-word word)
+			(setq best-score (find-word-score (str)))))))
+
 (defun write-to-file (content)
   (with-open-file (stream "output.txt" :direction :output)
   (format stream "~a~%" content)))
 
-;(print-list (find-words "lisp"))
+(format t (find-best-word "lisp"))
