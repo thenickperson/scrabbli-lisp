@@ -37,6 +37,6 @@
 (defsystem "scrabbli"
   :description "scrabbli"
   :version "1"
-  :author "Nicholas McCurdy & Katherine Whitlock"
+  :author "Nicolas McCurdy & Katherine Whitlock"
   :licence "MIT"
   :components ((:file "scrabbli")))
