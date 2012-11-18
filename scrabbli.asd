@@ -39,6 +39,4 @@
   :version "1"
   :author "Nicholas McCurdy & Katherine Whitlock"
   :licence "MIT"
-  :components ((:file "old-anagrams")
-               (:file "scrabbli"
-                      :depends-on ("old-anagrams"))))
+  :components ((:file "scrabbli")))

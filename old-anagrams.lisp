@@ -1,4 +1,3 @@
-; File by Kate
 (in-package :scrabbli)
 (defun range (start end)
     (if (> start end)
@@ -10,9 +9,72 @@
             (cons end nil)
             (cons start (range (+ start 1) end)))))
 
+; Loads the English dictionary from dictionary.txt.
+(defun get-dictionary ()
+  (setf filename "dictionary.txt")
+  (with-open-file (stream filename)
+    (loop for line = (read-line stream nil)
+      while line
+      collect line)))
+
+; Prints a list to standard out, separated by newlines.
+(defun print-list (lst)
+  (loop for item in lst do
+    (format t "~a~%" item)))
+
+; Goes through a list and returns valid words, with really fast comaprison.
+(defun filter-valid-words (lst)
+  (intersection lst dictionary :test 'equal))
+
+; Removes the test object from a list
+(defun prune (test tree) 
+  (labels ((rec (tree acc) 
+       (cond ((null tree) (nreverse acc)) 
+       ((consp (car tree)) 
+        (rec (cdr tree) 
+       (cons (rec (car tree) nil) acc))) 
+       (t (rec (cdr tree) 
+         (if (funcall test (car tree)) 
+             acc 
+             (cons (car tree) acc))))))) (rec tree nil)))
+
+; Save the dictionary so get-dictionary doesn't need to be called more than
+; once.
+(setf dictionary (get-dictionary))
+
+; Gets a set of combinations using list that are n lengths long
+(defun combn (list n)
+  (cond
+    ((< n 1) nil)
+    ((= n 1) (mapcar #'list list))
+    ((null list) nil)
+    (t (append (mapcar #'(lambda (subset) (cons (car list) subset)) (combn (cdr list) (1- n))) (combn (cdr list) n)))))
+
+; by Kate
+; gets all the subsets of a string, from 1 to the length of the string
+(defun substrings (string)
+  (setf lst (explode string))
+  (flatten (loop for sublst in (loop for i from 1 to (length string) collect (combn lst i)) collect
+          (loop for subberlst in sublst collect
+         (join subberlst)))))
+
+; fetches all the possible words for all the subsets of a given string
+(defun find-words (str)
+  (filter-valid-words
+    (flatten
+      (loop for substring in (substrings str) collect
+        (anagrams substring)))))
+
+(defun write-to-file (content)
+  (with-open-file (stream "output.txt" :direction :output)
+  (format stream "~a~%" content)))
+
 (defun explode (string)
   (mapcar #'(lambda (char) (string char))
     (coerce string 'list)))
+;;or
+(defun explode (string)
+ (loop for letter across string collect letter))
 
 (defun join (lst)
   (format nil "~{~A~}" lst))

@@ -21,7 +21,9 @@
 ;; (time (car (anagrams::anagrams "Ernest Hemingway")))
 
 (defpackage anagrams
-  (:use :common-lisp))
+  (:use :common-lisp)
+  (:export
+    #:new-anagram))
 
 (defpackage anagrams-system
   (:use :common-lisp :asdf))
@@ -38,17 +40,3 @@
                       :depends-on ("numeric-bag"))
                (:file "anagrams"
                       :depends-on ("dict" "numeric-bag"))))
-
-(defpackage scrabbli-system
-  (:use :common-lisp :asdf :anagrams))
-
-(in-package :scrabbli-system)
-
-(defsystem "scrabbli"
-  :description "scrabbli"
-  :version "1"
-  :author "Nicholas McCurdy & Katherine Whitlock"
-  :licence "MIT"
-  :components ((:file "anagram")
-               (:file "scrabbli"
-                      :depends-on ("anagram" ""))))

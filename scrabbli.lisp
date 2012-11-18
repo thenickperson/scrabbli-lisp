@@ -1,91 +1,39 @@
 (in-package :scrabbli)
 ; Loads the anagram generator
-(load "old-anagrams.lisp")
 
-; Loads the English dictionary from dictionary.txt.
-(defun get-dictionary ()
-	(setf filename "dictionary.txt")
-	(with-open-file (stream filename)
-		(loop for line = (read-line stream nil)
-			while line
-			collect line)))
 
-; Prints a list to standard out, separated by newlines.
-(defun print-list (lst)
+; Checks if a string exists in a list.
+(defun string-in-list (str lst)
 	(loop for item in lst do
-		(format t "~a~%" item)))
-
-; Goes through a list and returns valid words, with really fast comaprison.
-(defun filter-valid-words (lst)
-	(intersection lst dictionary :test 'equal))
-
-; Removes the test object from a list
-(defun prune (test tree) 
-  (labels ((rec (tree acc) 
-	     (cond ((null tree) (nreverse acc)) 
-		   ((consp (car tree)) 
-		    (rec (cdr tree) 
-			 (cons (rec (car tree) nil) acc))) 
-		   (t (rec (cdr tree) 
-			   (if (funcall test (car tree)) 
-			       acc 
-			       (cons (car tree) acc))))))) (rec tree nil)))
+		(if (equal str item) 
+		    (return T))))
 
 ; Gets the scrabble score for a single letter.
 (defun get-letter-score (letter)
 	(cond
-		((string-in-list letter '("e" "a" "i" "o" "n" "r" "t" "l" "s" "u")) 1)
-		((string-in-list letter '("d" "g"))                                 2)
-		((string-in-list letter '("b" "c" "m" "p"))                         3)
-		((string-in-list letter '("f" "h" "v" "w" "y"))                     4)
-		((string-in-list letter '("k"))                                     5)
-		((string-in-list letter '("j" "x"))                                 8)
-		((string-in-list letter '("q" "z"))                                 10)
+		((string-in-list letter '(#\e #\a #\i #\o #\n #\r #\t #\l #\s #\u)) 1)
+		((string-in-list letter '(#\d #\g))                                 2)
+		((string-in-list letter '(#\b #\c #\m #\p))                         3)
+		((string-in-list letter '(#\f #\h #\v #\w #\y))                     4)
+		((string-in-list letter '(#\k))                                     5)
+		((string-in-list letter '(#\j #\x))                                 8)
+		((string-in-list letter '(#\q #\z))                                 10)
 		(t 0)))
 
 ; Gets the scrabble score for an entire word.
 (defun get-word-score (str)
-	(apply '+
-		(loop for letter across str collect (get-letter-score letter))))
-
-; Save the dictionary so get-dictionary doesn't need to be called more than
-; once.
-(setf dictionary (get-dictionary))
-
-; Gets a set of combinations using list that are n lengths long
-(defun combn (list n)
-	(cond
-		((< n 1) nil)
-		((= n 1) (mapcar #'list list))
-		((null list) nil)
-		(t (append (mapcar #'(lambda (subset) (cons (car list) subset)) (combn (cdr list) (1- n))) (combn (cdr list) n)))))
-
-; by Kate
-; gets all the subsets of a string, from 1 to the length of the string
-(defun substrings (string)
-	(setf lst (explode string))
-	(flatten (loop for sublst in (loop for i from 1 to (length string) collect (combn lst i)) collect
-		      (loop for subberlst in sublst collect
-			   (join subberlst)))))
-
-; fetches all the possible words for all the subsets of a given string
-(defun find-words (str)
-	(filter-valid-words
-		(flatten
-			(loop for substring in (substrings str) collect
-				(anagrams substring)))))
-
+	(apply '+ (loop for letter across str collect (get-letter-score letter))))
+#|
 ; first the best scoring word that can be made with a given string
 (defun find-best-word (str)
-	(setq best-word nil)
-	(setq best-score 0)
-	(loop for word in (find-words (str)) do
-		(if (>= (find-word-score (str)) best-score) (
-			(setq best-word word)
-			(setq best-score (find-word-score (str)))))))
+  (setq best-word nil)
+  (setq best-score 0)
+  (loop for word in (get-words str) do
+    (if (>= (get-word-score str) best-score) 
+    	((setf best-word word) (setf best-score (get-word-score str)))))
+  (format t "Best Word:~a Best Score:~a" best-word best-score))
+|#	
+(defun get-words (str)
+	(anagrams::new-anagrams str))
 
-(defun write-to-file (content)
-  (with-open-file (stream "output.txt" :direction :output)
-  (format stream "~a~%" content)))
-
-(format t (find-best-word "lisp"))
+;;(format t (find-best-word ["lisp"]))
