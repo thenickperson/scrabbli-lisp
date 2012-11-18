@@ -76,7 +76,7 @@
 (defun subsets (string)
 	(setf lst (explode string))
 	(loop for i from 1 to (length string) collect
-		(combn lst i)))
+		(combn lst i))
 	(flatten (loop for sublst in lst collect
 		(loop for subberlst in sublst collect
 			(join subberlst)))))
