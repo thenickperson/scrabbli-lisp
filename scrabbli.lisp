@@ -15,7 +15,7 @@
 		(format t "~a~%" item)))
 
 ; Goes through a list and returns valid words, with really fast comaprison.
-(defun find-words (lst)
+(defun filter-valid-words (lst)
 	(intersection lst dictionary :test 'equal))
 
 ; Removes the test object from a list
@@ -69,7 +69,7 @@
 
 ; fetches all the possible words for all the subsets of a given string
 (defun find-words (str)
-	(find-words
+	(filter-valid-words
 		(flatten
 			(loop for substring in (substrings str) collect
 				(anagrams substring)))))
