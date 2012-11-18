@@ -63,26 +63,30 @@
 ; once.
 (setf dictionary (get-dictionary))
 
+; Gets a set of combinations using list that are n lengths long
 (defun combn (list n)
 	(cond ((< n 1) nil) ((= n 1) (mapcar #'list list))
 		((null list) nil)
 		(t (append (mapcar #'(lambda (subset) (cons (car list) subset)) (combn (cdr list) (1- n))) (combn (cdr list) n)))))
 
-
+; gets all the subsets of a string, from 1 to the length of the string
 (defun subsetter (string)
 	(setf lst (explode string))
 	(loop for i from 1 to (length string) collect
 		(combn lst i)))
 
+; emits a pretty list of our subsets, as a list of strings
 (defun get-subset-strings (string)
 	(setf lst (subsetter string))
 	(flatten (loop for sublst in lst collect
 		(loop for subberlst in sublst collect
 			(join subberlst)))))
 
+; fetches all the possible anagrams for all the subsets of a given string
 (defun anagrams-for-subsets (string)
 	(flatten (loop for item in (get-subset-strings string) collect
 		(anagrams item))))
 
+; fetches *valid* words by filtering anagrams using the dictionary
 (defun get-valid-posibilities (string)
   (find-valid-words (anagrams-for-subsets string)))
