@@ -73,7 +73,7 @@
 
 ; by Kate
 ; gets all the subsets of a string, from 1 to the length of the string
-(defun subsets (string)
+(defun substrings (string)
 	(setf lst (explode string))
 	(loop for i from 1 to (length string) collect
 		(combn lst i))
