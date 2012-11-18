@@ -75,16 +75,14 @@
 ; gets all the subsets of a string, from 1 to the length of the string
 (defun substrings (string)
 	(setf lst (explode string))
-	(loop for i from 1 to (length string) collect
-		(combn lst i))
-	(flatten (loop for sublst in lst collect
-		(loop for subberlst in sublst collect
-			(join subberlst)))))
+	(flatten (loop for sublst in (loop for i from 1 to (length string) collect (combn lst i)) collect
+		      (loop for subberlst in sublst collect
+			   (join subberlst)))))
 
 ; by Kate
 ; fetches all the possible anagrams for all the subsets of a given string
 (defun anagrams-for-subsets (string)
-	(flatten (loop for item in (substrings string) collect
+	(flatten (loop for item in (subsets string) collect
 		(anagrams item))))
 
 ; by Kate
