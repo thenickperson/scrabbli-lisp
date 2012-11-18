@@ -74,7 +74,7 @@
 			(loop for substring in (substrings str) collect
 				(anagrams substring)))))
 
-(defun writeToFile (content)
+(defun write-to-file (content)
   (with-open-file (stream "output.txt" :direction :output)
   (format stream "~a~%" content)))
 
