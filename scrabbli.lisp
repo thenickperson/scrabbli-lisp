@@ -70,21 +70,24 @@
 		((null list) nil)
 		(t (append (mapcar #'(lambda (subset) (cons (car list) subset)) (combn (cdr list) (1- n))) (combn (cdr list) n)))))
 
-
+; by Kate
 (defun subsetter (string)
 	(setf lst (explode string))
 	(loop for i from 1 to (length string) collect
 		(combn lst i)))
 
+; by Kate
 (defun get-subset-strings (string)
 	(setf lst (subsetter string))
 	(flatten (loop for sublst in lst collect
 		(loop for subberlst in sublst collect
 			(join subberlst)))))
 
+; by Kate
 (defun anagrams-for-subsets (string)
 	(flatten (loop for item in (get-subset-strings string) collect
 		(anagrams item))))
 
+; by Kate
 (defun get-valid-posibilities (string)
   (find-valid-words (anagrams-for-subsets string)))
