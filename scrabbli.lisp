@@ -33,13 +33,13 @@
 ; Gets the scrabble score for a single letter.
 (defun get-letter-score (letter)
 	(cond
-		((string-in-list letter '("E" "A" "I" "O" "N" "R" "T" "L" "S" "U")) 1)
-		((string-in-list letter '("D" "G"))                                 2)
-		((string-in-list letter '("B" "C" "M" "P"))                         3)
-		((string-in-list letter '("F" "H" "V" "W" "Y"))                     4)
-		((string-in-list letter '("K"))                                     5)
-		((string-in-list letter '("J" "X"))                                 8)
-		((string-in-list letter '("Q" "Z"))                                 10)
+		((string-in-list letter '("e" "a" "i" "o" "n" "r" "t" "l" "s" "u")) 1)
+		((string-in-list letter '("d" "g"))                                 2)
+		((string-in-list letter '("b" "c" "m" "p"))                         3)
+		((string-in-list letter '("f" "h" "v" "w" "y"))                     4)
+		((string-in-list letter '("k"))                                     5)
+		((string-in-list letter '("j" "x"))                                 8)
+		((string-in-list letter '("q" "z"))                                 10)
 		(t 0)))
 
 ; Gets the scrabble score for an entire word.
