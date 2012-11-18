@@ -25,6 +25,11 @@
 		(if (string= str item) (setf found t)))
 	found)
 
+(defun find-valid-words (lst)
+	(setf results '())
+	(loop for str in lst do
+		(setf results (append results '(str)))))
+
 ; Gets the scrabble score for a single letter.
 (defun get-letter-score (letter)
 	(cond
