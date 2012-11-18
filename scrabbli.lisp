@@ -25,6 +25,10 @@
 		(if (equal str item) 
 		    (return T))))
 
+; WAYYYY FASTER COMPARISON
+(defun fast-validator (lst)
+	(intersection lst dictionary :test 'equal))
+
 ; Goes through a list and returns valid words
 (defun find-valid-words (lst)
   (prune #'null (loop for str in lst collect
@@ -79,11 +83,21 @@
 		      (loop for subberlst in sublst collect
 			   (join subberlst)))))
 
+; by Kate	
+; fetches all the possible anagrams for all the subsets of a given string	  	
+(defun anagrams-for-subsets (string) 	
+	(flatten (loop for item in (substrings string) collect
+		(anagrams item))))
+
 ; fetches all the possible words for all the subsets of a given string
 (defun find-words (str)
-	(find-valid-words
+	(fast-validator
 		(flatten
 			(loop for substring in (substrings str) collect
 				(anagrams substring)))))
 
-(print-list (find-words "lisp"))
+(defun writeToFile (content)
+  (with-open-file (stream "output.txt" :direction :output)
+  (format stream "~a~%" content)))
+
+;(print-list (find-words "lisp"))
