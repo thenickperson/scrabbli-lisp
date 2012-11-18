@@ -62,3 +62,7 @@
   (flatten (loop for sublst in lst collect
 		    (loop for subberlst in sublst collect
 			 (join subberlst)))))
+
+(defun anagrams-for-subsets (string)
+  (flatten (loop for item in (get-subset-strings string) collect
+		(anagrams item))))
