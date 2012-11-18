@@ -22,6 +22,9 @@
 ;; (scrabbli::find-words "hey")
 ;; or, to time things:
 ;; (time (scrabbli::find-words "hey"))
+;;
+;; to switch namespaces: (in-package :scrabbli)
+;; or (in-package :anagrams)
 
 (defpackage scrabbli
   (:use :common-lisp))
