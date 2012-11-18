@@ -14,17 +14,6 @@
 	(loop for item in lst do
 		(format t "~a~%" item)))
 
-; Checks if a string is an English word.
-(defun is-word (str)
-	(string-in-list str dictionary))
-
-; Checks if a string exists in a list.
-(defun string-in-list (str lst)
-  (setf count 0)
-	(loop for item in lst do
-		(if (equal str item) 
-		    (return T))))
-
 ; WAYYYY FASTER COMPARISON
 (defun fast-validator (lst)
 	(intersection lst dictionary :test 'equal))
@@ -82,12 +71,6 @@
 	(flatten (loop for sublst in (loop for i from 1 to (length string) collect (combn lst i)) collect
 		      (loop for subberlst in sublst collect
 			   (join subberlst)))))
-
-; by Kate	
-; fetches all the possible anagrams for all the subsets of a given string	  	
-(defun anagrams-for-subsets (string) 	
-	(flatten (loop for item in (substrings string) collect
-		(anagrams item))))
 
 ; fetches all the possible words for all the subsets of a given string
 (defun find-words (str)
