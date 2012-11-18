@@ -64,7 +64,9 @@
 (setf dictionary (get-dictionary))
 
 (defun combn (list n)
-	(cond ((< n 1) nil) ((= n 1) (mapcar #'list list))
+	(cond
+		((< n 1) nil)
+		((= n 1) (mapcar #'list list))
 		((null list) nil)
 		(t (append (mapcar #'(lambda (subset) (cons (car list) subset)) (combn (cdr list) (1- n))) (combn (cdr list) n)))))
 
