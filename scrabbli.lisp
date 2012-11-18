@@ -20,15 +20,24 @@
 
 ; Checks if a string exists in a list.
 (defun string-in-list (str lst)
-	(setf found nil)
 	(loop for item in lst do
-		(if (string= str item) (setf found t)))
-	found)
+		(if (equal str item) 
+		    (return T))))
 
 (defun find-valid-words (lst)
-	(setf results '())
-	(loop for str in lst do
-		(setf results (append results '(str)))))
+  (prune #'null (loop for str in lst collect
+		    (if (is-word str) str))))
+
+(defun prune (test tree) 
+  (labels ((rec (tree acc) 
+	     (cond ((null tree) (nreverse acc)) 
+		   ((consp (car tree)) 
+		    (rec (cdr tree) 
+			 (cons (rec (car tree) nil) acc))) 
+		   (t (rec (cdr tree) 
+			   (if (funcall test (car tree)) 
+			       acc 
+			       (cons (car tree) acc))))))) (rec tree nil)))
 
 ; Gets the scrabble score for a single letter.
 (defun get-letter-score (letter)
