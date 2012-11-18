@@ -1,5 +1,6 @@
+(in-package :scrabbli)
 ; Loads the anagram generator
-(load "anagrams.lisp")
+(load "old-anagrams.lisp")
 
 ; Loads the English dictionary from dictionary.txt.
 (defun get-dictionary ()
