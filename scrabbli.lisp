@@ -24,10 +24,12 @@
 		(if (equal str item) 
 		    (return T))))
 
+; Goes through a list and returns valid words
 (defun find-valid-words (lst)
   (prune #'null (loop for str in lst collect
 		    (if (is-word str) str))))
 
+; Removes the test object from a list
 (defun prune (test tree) 
   (labels ((rec (tree acc) 
 	     (cond ((null tree) (nreverse acc)) 
