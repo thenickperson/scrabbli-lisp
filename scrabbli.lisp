@@ -15,14 +15,9 @@
 	(loop for item in lst do
 		(format t "~a~%" item)))
 
-; WAYYYY FASTER COMPARISON
-(defun fast-validator (lst)
+; Goes through a list and returns valid words, with really fast comaprison.
+(defun filter-valid-words (lst)
 	(intersection lst dictionary :test 'equal))
-
-; Goes through a list and returns valid words
-(defun find-valid-words (lst)
-  (prune #'null (loop for str in lst collect
-		    (if (is-word str) str))))
 
 ; Removes the test object from a list
 (defun prune (test tree) 
@@ -75,12 +70,12 @@
 
 ; fetches all the possible words for all the subsets of a given string
 (defun find-words (str)
-	(fast-validator
+	(filter-valid-words
 		(flatten
 			(loop for substring in (substrings str) collect
 				(anagrams substring)))))
 
-(defun writeToFile (content)
+(defun write-to-file (content)
   (with-open-file (stream "output.txt" :direction :output)
   (format stream "~a~%" content)))
 
