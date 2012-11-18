@@ -50,3 +50,24 @@
 ; Save the dictionary so get-dictionary doesn't need to be called more than
 ; once.
 (setf dictionary (get-dictionary))
+
+(defun combn (list n)
+  (cond ((< n 1) nil) ((= n 1) (mapcar #'list list))
+	((null list) nil)
+	(t (append (mapcar #'(lambda (subset) (cons (car list) subset)) (combn (cdr list) (1- n))) (combn (cdr list) n)))))
+
+
+(defun subsetter (string)
+	(setf lst (explode string))
+	(loop for i from 1 to (length string) collect
+		(combn lst i)))
+
+(defun get-subset-strings (string)
+  (setf lst (subsetter string))
+  (flatten (loop for sublst in lst collect
+		    (loop for subberlst in sublst collect
+			 (join subberlst)))))
+
+(defun anagrams-for-subsets (string)
+  (flatten (loop for item in (get-subset-strings string) collect
+		(anagrams item))))
