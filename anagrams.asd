@@ -40,20 +40,3 @@
                       :depends-on ("numeric-bag"))
                (:file "anagrams"
                       :depends-on ("dict" "numeric-bag"))))
-<<<<<<< HEAD
-=======
-
-(defpackage scrabbli-system
-  (:use :common-lisp :asdf :anagrams))
-
-(in-package :scrabbli-system)
-
-(defsystem "scrabbli"
-  :description "scrabbli"
-  :version "1"
-  :author "Nicolas McCurdy & Katherine Whitlock"
-  :licence "MIT"
-  :components ((:file "anagram")
-               (:file "scrabbli"
-                      :depends-on ("anagram" ""))))
->>>>>>> 29f0fd0c0c4464795124460355a4c3c6e390a757
