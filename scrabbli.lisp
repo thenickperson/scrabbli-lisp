@@ -20,6 +20,7 @@
 
 ; Checks if a string exists in a list.
 (defun string-in-list (str lst)
+  (setf count 0)
 	(loop for item in lst do
 		(if (equal str item) 
 		    (return T))))
@@ -82,3 +83,6 @@
 (defun anagrams-for-subsets (string)
 	(flatten (loop for item in (get-subset-strings string) collect
 		(anagrams item))))
+
+(defun get-valid-posibilities (string)
+  (find-valid-words (anagrams-for-subsets string)))
