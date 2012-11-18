@@ -14,14 +14,9 @@
 	(loop for item in lst do
 		(format t "~a~%" item)))
 
-; WAYYYY FASTER COMPARISON
+; Goes through a list and returns valid words, with really fast comaprison.
 (defun fast-validator (lst)
 	(intersection lst dictionary :test 'equal))
-
-; Goes through a list and returns valid words
-(defun find-valid-words (lst)
-  (prune #'null (loop for str in lst collect
-		    (if (is-word str) str))))
 
 ; Removes the test object from a list
 (defun prune (test tree) 
