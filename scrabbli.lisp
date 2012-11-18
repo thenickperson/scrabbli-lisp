@@ -79,13 +79,11 @@
 		      (loop for subberlst in sublst collect
 			   (join subberlst)))))
 
-; by Kate
-; fetches all the possible anagrams for all the subsets of a given string
-(defun anagrams-for-subsets (string)
-	(flatten (loop for item in (subsets string) collect
-		(anagrams item))))
+; fetches all the possible words for all the subsets of a given string
+(defun find-words (str)
+	(find-valid-words
+		(flatten
+			(loop for substring in (substrings str) collect
+				(anagrams substring)))))
 
-; by Kate
-; fetches *valid* words by filtering anagrams using the dictionary
-(defun get-valid-posibilities (string)
-  (find-valid-words (anagrams-for-subsets string)))
+(print-list (find-words "lisp"))
