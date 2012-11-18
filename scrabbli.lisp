@@ -94,6 +94,5 @@
 
 ; by Kate
 ; fetches *valid* words by filtering anagrams using the dictionary
->>>>>>> a68335f5b76fd30e648454dcb7c42baf4fb611dd
 (defun get-valid-posibilities (string)
   (find-valid-words (anagrams-for-subsets string)))
