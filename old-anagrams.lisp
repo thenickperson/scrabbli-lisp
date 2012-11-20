@@ -1,4 +1,3 @@
-(in-package :scrabbli)
 (defun range (start end)
     (if (> start end)
         (if (eql start end)
@@ -11,7 +10,7 @@
 
 ; Loads the English dictionary from dictionary.txt.
 (defun get-dictionary ()
-  (setf filename "dictionary.txt")
+  (setq filename "dictionary.txt")
   (with-open-file (stream filename)
     (loop for line = (read-line stream nil)
       while line
@@ -40,7 +39,7 @@
 
 ; Save the dictionary so get-dictionary doesn't need to be called more than
 ; once.
-(setf dictionary (get-dictionary))
+(defvar  dictionary (get-dictionary))
 
 ; Gets a set of combinations using list that are n lengths long
 (defun combn (list n)
@@ -53,7 +52,7 @@
 ; by Kate
 ; gets all the subsets of a string, from 1 to the length of the string
 (defun substrings (string)
-  (setf lst (explode string))
+  (setq lst (explode string))
   (flatten (loop for sublst in (loop for i from 1 to (length string) collect (combn lst i)) collect
           (loop for subberlst in sublst collect
          (join subberlst)))))
@@ -72,10 +71,12 @@
 (defun explode (string)
   (mapcar #'(lambda (char) (string char))
     (coerce string 'list)))
-;;or
+#|
 (defun explode (string)
- (loop for letter across string collect letter))
-
+  (if (= (length string) 1)
+      (return (first string))
+      (loop for letter across string collect letter)))
+|#
 (defun join (lst)
   (format nil "~{~A~}" lst))
 
