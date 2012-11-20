@@ -23,17 +23,20 @@
 ; Gets the scrabble score for an entire word.
 (defun get-word-score (str)
 	(apply '+ (loop for letter across str collect (get-letter-score letter))))
-#|
-; first the best scoring word that can be made with a given string
-(defun find-best-word (str)
-  (setq best-word nil)
-  (setq best-score 0)
-  (loop for word in (get-words str) do
-    (if (>= (get-word-score str) best-score) 
-    	((setf best-word word) (setf best-score (get-word-score str)))))
-  (format t "Best Word:~a Best Score:~a" best-word best-score))
-|#	
-(defun get-words (str)
-	(anagrams::new-anagrams str))
 
-;;(format t (find-best-word ["lisp"]))
+; first the best scoring word that can be made with a given string
+(defun find-best-word (string)
+  (let ((best-word "") (best-score 0))
+    (loop for word in (get-words string) do
+	 (let ((word-score (get-word-score word)))
+	   ;(format t "Word:~a Score:~a~%" word word-score)
+	   (if (>= word-score best-score) 
+	       (progn 
+		 (setf best-word word) 
+		 (setf best-score word-score)))))
+    (format t "Best Word:~a Best Score:~a" best-word best-score)))
+
+(defun get-words (str)
+  (anagrams::new-anagrams str))
+
+  ;;(format t (find-best-word ["lisp"]))
